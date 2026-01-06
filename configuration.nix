@@ -17,9 +17,13 @@
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelModules = [ "i915" ];
+  boot.blacklistedKernelModules = [ "xe" ];
   boot.kernelParams = [
-    "i915.enable_guc=3"
-  ];
+    "i915.force_probe=*"
+    
+   ];
+
+  
   
   networking.hostName = "veggie"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -61,7 +65,7 @@
   users.users.vlad = {
     isNormalUser = true;
     description = "vlad";
-    extraGroups = [ "networkmanager" "wheel" "video" "audio" "render" ];
+    extraGroups = [ "networkmanager" "wheel" "video" "audio" "render" "seat" "input" ];
     packages = with pkgs; [];
   };
 
@@ -70,32 +74,48 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
+  fonts = {
+    fontconfig.enable = true;
+
+    packages = with pkgs; [
+      noto-fonts
+      noto-fonts-cjk-sans
+      noto-fonts-color-emoji
+      dejavu_fonts
+      liberation_ttf
+    ];
+  };
+  
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     emacs-nox
     nh
     git
     tmux
-    vulkan-loader
     vulkan-tools
     mpv
     ffmpeg
     libva-utils
     pciutils
     iw
+    curl
+    alsa-utils
+    libdrm
+    mesa-demos
+    wiremix
+    gamescope
+    ( mpv.override { scripts = [
+      mpvScripts.modernz
+      mpvScripts.mpris
+                     ]; } )
+    jellyfin-mpv-shim
   ];
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+  
 
-  # List services that you want to enable:
-
+ 
+ 
   services.pipewire = {
     enable = true;
     wireplumber.enable = true;
@@ -103,17 +123,54 @@
     pulse.enable = true;
   };
   security.rtkit.enable = true;
-  
+  security.polkit.enable = true;
+
+#   environment.etc."wireplumber/wireplumber.conf.d/10-headless.conf".text = ''
+#   wireplumber.profiles = {
+#   main = {
+#     monitor.alsa = true
+#   }
+# }
+
+# wireplumber.settings = {
+#   device.restore-profile = false
+#   device.restore-routes  = false
+# }
+
+# monitor.alsa.rules = [
+#   {
+#     matches = [
+#       { device.name = "~alsa_card.*" }
+#     ]
+#     actions = {
+#       update-props = {
+#         api.acp.auto-profile = true
+#         api.acp.auto-port = true
+#         device.profile = "output:hdmi-stereo"
+#       }
+#     }
+#   }
+# ]
+# }
+# '';
+
+  programs.zsh.enable = true;
+  users.defaultUserShell = pkgs.zsh;
+    
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
       intel-media-driver
-      intel-vaapi-driver
+      #intel-vaapi-driver
       vpl-gpu-rt
-
+      vulkan-loader
+      vulkan-validation-layers
+      vulkan-extension-layer
     ];
     
   };
+
+
 
   hardware.enableRedistributableFirmware = true;
   
@@ -127,7 +184,7 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
   services.openssh.openFirewall = true;
-
+  services.seatd.enable = true;
 
   services.avahi = {
     enable = true;
@@ -135,6 +192,9 @@
     nssmdns6 = true;
     openFirewall = true;
   };
+
+ 
+  
   
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
@@ -142,12 +202,7 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+ 
   system.stateVersion = "25.11"; # Did you read the comment?
 
 }
