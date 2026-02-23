@@ -199,7 +199,7 @@
     VDPAU_DRIVER = "va_gl";
   };
 
-  services.getty.autologinUser = "vlad";
+  # services.getty.autologinUser = "vlad";
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
   services.openssh.openFirewall = true;
