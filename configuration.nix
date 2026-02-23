@@ -132,6 +132,7 @@
     hwRender = true;
     fonts = [{ name = "JetBrains Mono"; package = pkgs.jetbrains-mono; }];
     extraConfig = "font-size=28";  # tune for 4K TV viewing distance
+    autologinUser = "vlad";
   };
 
   security.sudo.extraRules = [{
