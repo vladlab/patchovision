@@ -87,7 +87,7 @@
   };
   
   environment.systemPackages = with pkgs; [
-    #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+  
     wget
     emacs-nox
     nh
@@ -127,22 +127,7 @@
   security.rtkit.enable = true;
   security.polkit.enable = true;
 
-  services.kmscon = {
-    enable = true;
-    hwRender = true;
-    fonts = [{ name = "JetBrains Mono"; package = pkgs.jetbrains-mono; }];
-    extraConfig = "font-size=28";  # tune for 4K TV viewing distance
-    autologinUser = "vlad";
-  };
-
-  security.sudo.extraRules = [{
-    users = ["vlad"];
-    commands = [
-      { command = "/run/current-system/sw/bin/chvt"; options = ["NOPASSWD"]; }
-      { command = "/run/current-system/sw/bin/fgconsole"; options = ["NOPASSWD"]; }
-    ];
-  }];
-  
+   
   
 #   environment.etc."wireplumber/wireplumber.conf.d/10-headless.conf".text = ''
 #   wireplumber.profiles = {
@@ -199,7 +184,7 @@
     VDPAU_DRIVER = "va_gl";
   };
 
-  # services.getty.autologinUser = "vlad";
+  services.getty.autologinUser = "vlad";
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
   services.openssh.openFirewall = true;
