@@ -133,6 +133,15 @@
     fonts = [{ name = "JetBrains Mono"; package = pkgs.jetbrains-mono; }];
     extraConfig = "font-size=28";  # tune for 4K TV viewing distance
   };
+
+  security.sudo.extraRules = [{
+    users = ["vlad"];
+    commands = [
+      { command = "/run/current-system/sw/bin/chvt"; options = ["NOPASSWD"]; }
+      { command = "/run/current-system/sw/bin/fgconsole"; options = ["NOPASSWD"]; }
+    ];
+  }];
+  
   
 #   environment.etc."wireplumber/wireplumber.conf.d/10-headless.conf".text = ''
 #   wireplumber.profiles = {
