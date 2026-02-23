@@ -110,6 +110,8 @@
       mpvScripts.mpris
                      ]; } )
     jellyfin-mpv-shim
+    uv
+    python315
   ];
 
   
@@ -125,6 +127,13 @@
   security.rtkit.enable = true;
   security.polkit.enable = true;
 
+  services.kmscon = {
+    enable = true;
+    hwRender = true;
+    fonts = [{ name = "JetBrains Mono"; package = pkgs.jetbrains-mono; }];
+    extraConfig = "font-size=28";  # tune for 4K TV viewing distance
+  };
+  
 #   environment.etc."wireplumber/wireplumber.conf.d/10-headless.conf".text = ''
 #   wireplumber.profiles = {
 #   main = {
