@@ -17,7 +17,7 @@
 
              in
                {
-                 nixosConfigurations.veggie = nixpkgs.lib.nixosSystem {
+                 nixosConfigurations.patchovision = nixpkgs.lib.nixosSystem {
                    inherit system;
                    specialArgs = { inherit inputs; };
                    modules = [

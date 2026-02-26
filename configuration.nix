@@ -25,7 +25,7 @@
 
   
   
-  networking.hostName = "veggie"; # Define your hostname.
+  networking.hostName = "patchovision"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -62,9 +62,9 @@
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.vlad = {
+  users.users.ryan = {
     isNormalUser = true;
-    description = "vlad";
+    description = "ryan";
     extraGroups = [ "networkmanager" "wheel" "video" "audio" "render" "seat" "input" ];
     packages = with pkgs; [];
   };
@@ -89,7 +89,6 @@
   environment.systemPackages = with pkgs; [
   
     wget
-    emacs-nox
     nh
     git
     tmux
@@ -127,36 +126,8 @@
   security.rtkit.enable = true;
   security.polkit.enable = true;
 
-   
-  
-#   environment.etc."wireplumber/wireplumber.conf.d/10-headless.conf".text = ''
-#   wireplumber.profiles = {
-#   main = {
-#     monitor.alsa = true
-#   }
-# }
+    
 
-# wireplumber.settings = {
-#   device.restore-profile = false
-#   device.restore-routes  = false
-# }
-
-# monitor.alsa.rules = [
-#   {
-#     matches = [
-#       { device.name = "~alsa_card.*" }
-#     ]
-#     actions = {
-#       update-props = {
-#         api.acp.auto-profile = true
-#         api.acp.auto-port = true
-#         device.profile = "output:hdmi-stereo"
-#       }
-#     }
-#   }
-# ]
-# }
-# '';
 
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
@@ -184,7 +155,7 @@
     VDPAU_DRIVER = "va_gl";
   };
 
-  services.getty.autologinUser = "vlad";
+  services.getty.autologinUser = "ryan";
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
   services.openssh.openFirewall = true;
