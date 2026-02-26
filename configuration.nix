@@ -20,6 +20,7 @@
   boot.blacklistedKernelModules = [ "xe" ];
   boot.kernelParams = [
     "i915.force_probe=*"
+    "consoleblank=0"
     
    ];
 
